@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 
-import { retreiveData } from "../../store/actions";
+import { retreiveData, isLoading } from "../../store/actions";
 
 import { connect } from "react-redux";
 
@@ -13,22 +13,22 @@ class MainScreen extends React.Component {
   state = {
     data: [],
     base: "GBP",
-    loading: true,
     error: false
   }
 
   componentDidMount = () => {
-    const { loading } = this.state
-    console.log(this.props, this.state);
-    this.setState({ loading: false });
+    this.props.isLoading(true);
+    setTimeout(() => {
+      this.props.isLoading(false);
+    }, 2500);
   }
   
   render = () => {
-    const { loading, error, data } = this.state
-    if(loading) {
+    const { error, data } = this.state
+    if(this.props.loading) {
       return (
         <View style={styles.container}>
-          <ActivityIndicator animating={loading}/>
+          <ActivityIndicator animating={this.props.loading}/>
         </View>
       )
     }
@@ -43,13 +43,15 @@ class MainScreen extends React.Component {
 const mapStateToProps = state => {
   console.log(state.dataReducer);
   return {
-    data: state.dataReducer.data
+    data: state.dataReducer.data,
+    loading: state.dataReducer.loading
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    retrieveData: retreiveData
+    retrieveData: (url) => dispatch(retreiveData(url)),
+    isLoading: (boolean) => dispatch(isLoading(boolean)),
   }
 }
 

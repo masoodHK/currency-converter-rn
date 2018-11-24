@@ -1,17 +1,7 @@
-import axios from 'axios';
+import { retreiveData } from "./dataActions";
+import { search } from "./searchActions";
 
-export function retreiveData(url) {
-    return (dispatch, getState) => {
-        const { data } = getState();
-
-        if(data.length === 0) {
-            axios.get(url).then(data => dispatch({
-                type: "ADD_DATA",
-                data: data
-            }))
-        }
-        else {
-            
-        }
-    }
+export {
+    retreiveData,
+    search
 }

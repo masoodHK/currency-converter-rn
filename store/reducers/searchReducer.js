@@ -1,10 +1,4 @@
-const initialState = {
-    loading: false,
-    data: [],
-    error: null
-}
-
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
     switch(action.type) {
         case "ADD_DATA":
             return {
