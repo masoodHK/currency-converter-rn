@@ -1,5 +1,5 @@
 const initialState = {
-    loading: false,
+    loading: true,
     data: [],
     error: null
 }
@@ -9,13 +9,8 @@ export default (state = initialState, action) => {
         case "ADD_DATA":
             return {
                 ...state,
-                data: [...state.data, action.data]
-            }
-
-        case "LOADING":
-            return {
-                ...state,
-                loading: action.loading
+                data: [...state.data, action.data],
+                loading: false
             }
 
         case "ERROR":

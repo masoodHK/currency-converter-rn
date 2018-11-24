@@ -3,12 +3,14 @@ import axios from 'axios';
 export function retreiveData(url) {
     return (dispatch, getState) => {
         const { data } = getState();
-        axios.get(url)
-            .then(response => {
-                isLoading(false);
-                return dispatch(addData(response));
-            })
-            .catch(error => dispatch(errorFound(error)))
+        if(data.length !== 0) {
+            axios.get(url)
+                .then(response => {
+                    return dispatch(addData(response));
+                })
+                .catch(error => dispatch(errorFound(error)))
+        }
+        else return;
     }
 }
 
@@ -23,12 +25,5 @@ function errorFound(error) {
     return {
         type: "ERROR",
         error
-    }
-}
-
-export function isLoading(boolean) {
-    return {
-        type: "LOADING",
-        loading: boolean
     }
 }
