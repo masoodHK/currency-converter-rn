@@ -77,7 +77,7 @@ class SearchScreen extends React.Component {
               <Text style={styles.searchHeaderText}>From</Text>
               <Picker
                 style={styles.searchInput}
-                selectedValue={from ? from: data.base}
+                selectedValue={from ? from : data.base}
                 onValueChange={(itemValue, itemPosition) => this.setState({ from: itemValue })} >
                 {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
               </Picker>
@@ -86,7 +86,7 @@ class SearchScreen extends React.Component {
               <Text style={styles.searchHeaderText}>To</Text>
               <Picker
                 style={styles.searchInput}
-                selectedValue={to ? to: data.base}
+                selectedValue={to ? to : data.base}
                 onValueChange={(itemValue, itemPosition) => this.setState({ to: itemValue })} >
                 {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
               </Picker>

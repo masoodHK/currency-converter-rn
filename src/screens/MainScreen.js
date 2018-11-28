@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, ActivityIndicator, Picker, ScrollView } from 'react-native';
 import { connect } from "react-redux";
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
+const moment = require("moment");
 
 import { retreiveData } from "../../store/actions";
 import styles from '../styles';
