@@ -19,4 +19,6 @@ const persistor = persistStore(rootStore);
 export {
     rootStore,
     persistor
-}
+};
+
+persistor.purge();

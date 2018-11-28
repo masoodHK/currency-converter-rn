@@ -1,6 +1,6 @@
 const initialState = {
     loading: true,
-    data: [],
+    data: {},
     error: null
 }
 
@@ -9,21 +9,23 @@ export default (state = initialState, action) => {
         case "ADD_DATA":
             return {
                 ...state,
-                data: [...state.data, action.data],
-                loading: false
+                data: action.data,
+                loading: false,
+                error: null
             }
 
         case "ERROR":
             return {
                 ...state,
                 error: action.error,
-                loading: false
+                loading: false,
+                data: {}
             }
         
-        case "FILTERED_DATA":
+        case "LOADING":
             return {
                 ...state,
-                data: action.data,
+                loading: true,
             }
         default: return state
     }

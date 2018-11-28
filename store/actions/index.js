@@ -1,7 +1,5 @@
-import { retreiveData } from "./dataActions";
-import { search } from "./searchActions";
+import retreiveData from "./dataActions";
 
 export {
-    retreiveData,
-    search
+    retreiveData
 }

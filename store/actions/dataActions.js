@@ -1,12 +1,20 @@
-import axios from 'axios';
-
-export function retreiveData(url) {
+export default function retreiveData(url) {
     return (dispatch, getState) => {
         const { data } = getState();
-        if(data.length !== 0) {
-            axios.get(url)
+        dispatch(isLoading());
+        if(data === undefined) {
+            fetch(url)
                 .then(response => {
-                    return dispatch(addData(response));
+                    if(!response.ok) {
+                        throw Error(response.statusText);
+                    }
+
+                    return response;
+
+                }).then(res => res.json()).then(data => {
+                    setTimeout(() => {
+                        dispatch(addData(data));
+                    }, 3500);
                 })
                 .catch(error => dispatch(errorFound(error)))
         }
@@ -18,12 +26,18 @@ function addData(data) {
     return {
         type: "ADD_DATA",
         data,
-    }
-}
+    };
+};
+
+function isLoading() {
+    return {
+        type: "LOADING"
+    };
+};
 
 function errorFound(error) {
     return {
         type: "ERROR",
         error
-    }
-}
+    };
+};
