@@ -1,7 +1,7 @@
 import {
     createMaterialTopTabNavigator,
     createAppContainer,
-    createDrawerNavigator
+    createStackNavigator
 } from "react-navigation";
 
 import MainScreen from './MainScreen';
@@ -21,18 +21,20 @@ const tabNavigatorConfig = {
     lazy: true
 };
 
+const searchStack = createStackNavigator({
+    Main: SearchScreen,
+    Forecast: ForecastScreen
+}, {
+    headerMode: "none"
+})
+
 const tabNavigator = createMaterialTopTabNavigator({
     Home: {
         screen: MainScreen,
     },
     Search: {
-        screen: SearchScreen
+        screen: searchStack
     },
 }, tabNavigatorConfig);
-
-const drawerNavigator = createDrawerNavigator({
-    Homepage: tabNavigator,
-    Forecasts: ForecastScreen
-}, {});
 
 export default createAppContainer(tabNavigator);

@@ -1,13 +1,12 @@
 import React from 'react';
-import { Text, View, ActivityIndicator, Picker, ScrollView } from 'react-native';
+import { Text, View, ActivityIndicator, ScrollView } from 'react-native';
 import { connect } from "react-redux";
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
 const moment = require("moment");
 
 import { retreiveData } from "../../store/actions";
 import styles from '../styles';
-
-const URL = "https://api.exchangeratesapi.io/latest"
+import { LATEST_URL } from '../../configs/constants';
 
 class MainScreen extends React.Component {
   state = {
@@ -16,8 +15,8 @@ class MainScreen extends React.Component {
 
   componentDidMount = () => {
     const { base } = this.state;
-    this.props.retreiveData(`${URL}?base=${base}`)
-  }
+    this.props.retreiveData(`${LATEST_URL}?base=${base}`)
+  };
   
   render = () => {
     const { error, data, loading } = this.props;
@@ -45,12 +44,10 @@ class MainScreen extends React.Component {
         <ScrollView>
           <TableView>
             <Section headerComponent={<View style={styles.headerStyle}>
-              <Text style={styles.headerText}>Date: {data.date}</Text>
+              <Text style={styles.headerText}>Date: {moment(data.date, "YYYY-MM-DD").format("MMMM Do YYYY")}</Text>
               <Text style={styles.headerText}>Base: {data.base}</Text>
             </View>}>
-              {rates.map(rate => {
-                return <Cell key={rate} cellStyle="RightDetail" title={rate} detail={data.rates[rate]} />
-              })}
+              {rates.map(rate => <Cell key={rate} cellStyle="RightDetail" title={rate} detail={data.rates[rate]} />)}
             </Section>
           </TableView>
         </ScrollView>

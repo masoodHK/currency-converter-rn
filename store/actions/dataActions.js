@@ -1,3 +1,5 @@
+import { isLoading, errorFound } from './commonActions'
+
 export default function retreiveData(url) {
     return (dispatch, getState) => {
         const { data } = getState();
@@ -26,18 +28,5 @@ function addData(data) {
     return {
         type: "ADD_DATA",
         data,
-    };
-};
-
-function isLoading() {
-    return {
-        type: "LOADING"
-    };
-};
-
-function errorFound(error) {
-    return {
-        type: "ERROR",
-        error
     };
 };

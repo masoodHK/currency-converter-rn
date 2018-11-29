@@ -3,54 +3,56 @@ import { Text, View, ActivityIndicator, Picker, TextInput, Button } from 'react-
 import { connect } from "react-redux";
 
 import styles from '../styles';
-
-const URL = "https://api.exchangeratesapi.io/latest"
+import { LATEST_URL } from '../../configs/constants';
 
 class SearchScreen extends React.Component {
   state = {
-    convertedRate: 0,
     query: "",
     to: "",
-    from: "",
-    resultLoading: false
+    from: ""
   };
 
-  convertRate = (data) => {
-    const { to, from, query } = this.state;
+  convertRate = (data, to, from) => {
+    const { query } = this.state;
     let number = parseFloat(query);
-    let convertedRate = number * data.rates[from];
+    let convertedRate = number * data.rates[to];
     this.setState({
-      convertedRate,
-      resultLoading: false
+      query: "",
+      to: "",
+      from: ""
+    });
+
+    this.props.navigation.navigate("Forecast", {
+      to,
+      from,
+      convertedRate
     })
-  }
+  };
 
   convert = () => {
     const { data } = this.props;
     const { to, from } = this.state;
 
-    fetch(`${URL}?base=${data.base}&symbols=${from},${to}`)
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
+    let toSymbol = to ? to : data.base;
+    let fromSymbol = from ? from : data.base;
+    
+    if(toSymbol === data.base) {
+      this.convertRate(data, toSymbol, fromSymbol);
+    }
+    else {
+      fetch(`${LATEST_URL}?base=${fromSymbol}`)
+        .then(res => res.json())
+        .then(result => {
+          this.convertRate(result, toSymbol, fromSymbol);
+        })
+    }
 
-        return response;
-
-      })
-      .then(response => response.json())
-      .then(result => {
-        this.setState({resultLoading: true})
-        setTimeout(() => {
-          this.convertRate(result);
-        }, 3500);
-      })
-      .catch(error => console.log(error));
-  }
+    
+  };
 
   render() {
     const { error, data, loading } = this.props;
-    const { convertedRate, query, to, from, resultLoading } = this.state
+    const { query, to, from } = this.state
 
     if (loading) {
       return (
@@ -70,52 +72,38 @@ class SearchScreen extends React.Component {
 
     if (data !== undefined) {
       const rates = Object.keys(data.rates);
-      if (!convertedRate && !resultLoading) {
-        return (
-          <View style={styles.searchContainer}>
-            <View style={{ marginVertical: 10 }}>
-              <Text style={styles.searchHeaderText}>From</Text>
-              <Picker
-                style={styles.searchInput}
-                selectedValue={from ? from : data.base}
-                onValueChange={(itemValue, itemPosition) => this.setState({ from: itemValue })} >
-                {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
-              </Picker>
-            </View>
-            <View style={{ marginVertical: 10 }}>
-              <Text style={styles.searchHeaderText}>To</Text>
-              <Picker
-                style={styles.searchInput}
-                selectedValue={to ? to : data.base}
-                onValueChange={(itemValue, itemPosition) => this.setState({ to: itemValue })} >
-                {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
-              </Picker>
-            </View>
-            <View style={{ marginVertical: 10 }}>
-              <TextInput
-                style={styles.searchInput}
-                value={query}
-                keyboardType="numeric"
-                onChangeText={(text) => this.setState({ query: text })} />
-
-              <Button title="Convert" onPress={(ev) => console.log(ev)} />
-            </View>
+      return (
+        <View style={styles.searchContainer}>
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.searchHeaderText}>From</Text>
+            <Picker
+              style={styles.searchInput}
+              selectedValue={from ? from : data.base}
+              onValueChange={(itemValue) => this.setState({ from: itemValue })} >
+              {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
+            </Picker>
           </View>
-        );
-      }
-      else if(resultLoading) {
-        <View style={styles.container}>
-          <ActivityIndicator animating={loading} size="large" />
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.searchHeaderText}>To</Text>
+            <Picker
+              style={styles.searchInput}
+              selectedValue={to ? to : data.base}
+              onValueChange={(itemValue) => this.setState({ to: itemValue })} >
+              {rates.map(rate => <Picker.Item key={rate} value={rate} label={rate} />)}
+            </Picker>
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <TextInput
+              style={styles.searchInput}
+              value={query}
+              keyboardType="numeric"
+              onChangeText={(text) => this.setState({ query: text })} />
+          </View>
+          <View>
+            <Button title="Convert" onPress={() => this.convert()} />
+          </View>
         </View>
-      }
-      else {
-        return (
-          <View style={styles.searchContainer}>
-            <Text>Converted: {query} from {from} to {from}</Text>
-            <Text>Result: {convertedRate}</Text>
-          </View>
-        )
-      }
+      );
     };
   };
 };
