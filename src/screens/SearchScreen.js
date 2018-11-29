@@ -36,7 +36,7 @@ class SearchScreen extends React.Component {
     let toSymbol = to ? to : data.base;
     let fromSymbol = from ? from : data.base;
     
-    if(toSymbol === data.base) {
+    if(fromSymbol === data.base) {
       this.convertRate(data, toSymbol, fromSymbol);
     }
     else {

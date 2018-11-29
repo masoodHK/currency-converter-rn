@@ -1,0 +1,20 @@
+DATABASE STRUCTURE
+
+/
+main
+    |
+|    date
+|        |
+|        base
+|            |
+|            rates
+|
+prev-rates
+          |
+	   base = from
+          |
+           rates
+                |
+                 date
+                     |
+                      values              
