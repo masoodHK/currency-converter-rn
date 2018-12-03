@@ -1,6 +1,6 @@
 const LATEST_URL = "https://api.exchangeratesapi.io/latest";
 
-const HISTORY_URL = "https://api.exchangeratesapi.io/latest";
+const HISTORY_URL = "https://api.exchangeratesapi.io/history";
 
 const FIREBASE_CONFIG = {
     apiKey: "AIzaSyBirV6aR3g1kv1r3rDkGugCALQixfY1fuU",

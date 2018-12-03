@@ -4,10 +4,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case "GET_HISTORY_OF_PREVIOUS_DAYS":
+		case "GET_HISTORY":
 			return {
 				...state,
-				dataOfPreviousDays: action.dataOfPreviousDays
+				dataOfPreviousDays: action.dataOfPreviousDays,
 			};
 		default: return state
 	};
