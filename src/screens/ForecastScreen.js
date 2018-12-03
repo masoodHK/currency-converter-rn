@@ -45,13 +45,16 @@ class ForecastScreen extends Component {
 
     const dataset = [];
     const value = parseInt(ofDate.split("-").join(""));
+    console.log(value);
     const to = getParam("to");
 
     dates.map(date => {
-      dataset.push([data.rates[date][to], parseInt(date.split("-").join())])
+      dataset.push([parseInt(date.split("-").join()), data.rates[date][to]])
     });
 
-    const val = regression.linear(dataset);
+    const val = regression.linear(dataset, {
+      precision: 10
+    });
     console.log(val);
 
     let result = val.predict(value);
