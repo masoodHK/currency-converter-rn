@@ -18,7 +18,8 @@
     "react-navigation": "^3.0.0",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "regression": "^2.0.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

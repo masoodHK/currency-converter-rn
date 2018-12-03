@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.currency.conversion"
+    },
+    "android" : {
+      "package": "com.currency.conversion"
     }
   }
 }

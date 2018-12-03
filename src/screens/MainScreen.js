@@ -39,7 +39,6 @@ class MainScreen extends React.Component {
     
     if(data !== undefined) {
       const rates = Object.keys(data.rates);
-      console.log(rates);
       return (
         <ScrollView>
           <TableView>

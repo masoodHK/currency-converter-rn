@@ -7,6 +7,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    forecastContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20
+    },
     headerStyle: {
         flex: 1,
         flexDirection: "row",
