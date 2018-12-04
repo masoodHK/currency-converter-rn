@@ -2,8 +2,6 @@ import firebase from '../../configs/firebase'
 const moment = require("moment");
 const database = firebase.database();
 
-import { isLoading, errorFound } from './commonActions'
-
 function retreiveData(data) {
 	database.ref(`prevDays/${data.base}`).set({
 		rates: data.rates,

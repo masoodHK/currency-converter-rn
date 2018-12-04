@@ -51,6 +51,7 @@ class ForecastScreen extends Component {
     dates.map(date => {
       dataset.push([parseInt(date.split("-").join()), data.rates[date][to]])
     });
+    console.log(dataset);
 
     const val = regression.linear(dataset, {
       precision: 10
@@ -78,7 +79,9 @@ class ForecastScreen extends Component {
             <Text style={styles.headerText}>Previous Rates</Text>
           </View>
           <TableView>
-            <Section headerComponent={<View style={{ alignItems: "center", paddingVertical: 10 }}><Text style={styles.headerText}>{to}</Text></View>}>
+            <Section headerComponent={<View style={{ alignItems: "center", paddingVertical: 10 }}>
+                                        <Text style={styles.headerText}>{to}</Text>
+                                      </View>} >
               {dates.map(date => <Cell key={date}
                                     cellStyle="RightDetail"
                                     title={moment(date, "YYYY-MM-DD").format("MMMM Do YYYY")}
@@ -89,7 +92,9 @@ class ForecastScreen extends Component {
             <Text style={styles.headerText}>Predictions for few days</Text>
           </View>
           <TableView>
-            <Section headerComponent={<View style={{ alignItems: "center" }}><Text style={styles.headerText}>{to}</Text></View>}>
+            <Section headerComponent={<View style={{ alignItems: "center" }}>
+                                        <Text style={styles.headerText}>{to}</Text>
+                                      </View>}>
               {dates.map((date, index) => {
                 const dateFormatted = moment(dates[dates.length - 1], "YYYY-MM-DD").add(index + 1, "days").format("MMMM Do YYYY")
                 return <Cell key={date} cellStyle="RightDetail" title={dateFormatted} detail={this.showPredictions(moment(dates[dates.length - 1], "YYYY-MM-DD").format("YYYY-MM-DD"))} />;
