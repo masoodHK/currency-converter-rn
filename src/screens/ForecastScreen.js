@@ -59,8 +59,8 @@ class ForecastScreen extends Component {
     console.log(val);
 
     let result = val.predict(value);
-    
-    return result;
+    console.log(result);
+    return result[1];
   }
 
   render() {
@@ -96,8 +96,8 @@ class ForecastScreen extends Component {
                                         <Text style={styles.headerText}>{to}</Text>
                                       </View>}>
               {dates.map((date, index) => {
-                const dateFormatted = moment(dates[dates.length - 1], "YYYY-MM-DD").add(index + 1, "days").format("MMMM Do YYYY")
-                return <Cell key={date} cellStyle="RightDetail" title={dateFormatted} detail={this.showPredictions(moment(dates[dates.length - 1], "YYYY-MM-DD").format("YYYY-MM-DD"))} />;
+                const dateFormatted = moment(dates[dates.length - 1], "YYYY-MM-DD").add(index + 1, "days")
+                return <Cell key={date} cellStyle="RightDetail" title={dateFormatted.format("MMMM Do YYYY")} detail={this.showPredictions(dateFormatted.format("YYYY-MM-DD"))} />;
               })}
             </Section>
           </TableView>
